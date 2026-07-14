@@ -1,0 +1,41 @@
+services:
+  # ── Backend (FastAPI) ─────────────────────────────────────────────────────────
+  - type: web
+    name: quran-hub-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: MONGO_URL
+        sync: false      # Set this manually in Render dashboard → full MongoDB Atlas connection string, e.g. mongodb+srv://<username>:<password>@<cluster-url>/quran_hub?retryWrites=true&w=majority
+      - key: MONGO_DB
+        value: quran_hub
+      - key: JWT_SECRET
+        generateValue: true   # Render auto-generates a random secret
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "7"
+      - key: LLM_PROVIDER
+        value: openai
+      - key: LLM_API_KEY
+        sync: false      # Set your OpenAI/Gemini/Anthropic key manually
+      - key: FRONTEND_URL
+        sync: false      # Set to your Render frontend URL after deploy, e.g. https://quran-hub.onrender.com
+      - key: ALLOWED_ORIGINS
+        sync: false      # Optionally add extra allowed origins (comma-separated)
+
+  # ── Frontend (React, served by nginx) ─────────────────────────────────────────
+  - type: web
+    name: quran-hub-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: free
+    envVars:
+      - key: VITE_API_URL
+        sync: false      # Set to your Render backend URL, e.g. https://quran-hub-backend.onrender.com

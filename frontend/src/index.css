@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Comic Neue', cursive;
+    scroll-behavior: smooth;
+  }
+
+  .arabic {
+    font-family: 'Amiri', 'Scheherazade New', serif;
+    direction: rtl;
+    text-align: right;
+    line-height: 2.2;
+    font-size: 1.5rem;
+  }
+
+  .prose-islamic h1, .prose-islamic h2, .prose-islamic h3 {
+    @apply text-primary-900 dark:text-primary-100 font-bold mb-3;
+  }
+  .prose-islamic p {
+    @apply mb-4 leading-relaxed;
+  }
+  .prose-islamic ul, .prose-islamic ol {
+    @apply pl-6 mb-4;
+  }
+  .prose-islamic li {
+    @apply mb-1;
+  }
+  .prose-islamic blockquote {
+    @apply border-l-4 border-gold pl-4 italic my-4;
+  }
+  .prose-islamic a {
+    @apply text-primary-600 underline;
+  }
+
+  .dark .prose-islamic h1, .dark .prose-islamic h2, .dark .prose-islamic h3 {
+    @apply text-primary-100;
+  }
+}
