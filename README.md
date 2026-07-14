@@ -69,7 +69,7 @@ This project includes a `render.yaml` for one-click deployment to [Render.com](h
    - Open **Database Access** and create a database user with a username and password.
    - Open **Network Access** and allow access from `0.0.0.0/0` so Render can connect.
    - In **Connect → Drivers**, copy the connection string.
-   - Replace `<password>` in the connection string with your real database password. If your password contains special characters, URL-encode it first.
+   - Replace `<password>` in the connection string with your real database password. If your password contains special characters, URL-encode it first (`@` → `%40`, `#` → `%23`, `/` → `%2F`).
 
 3. **In Render dashboard**, click **New → Blueprint** and connect your repo. Render will read `render.yaml` and create two services automatically:
    - `quran-hub-backend` (FastAPI)

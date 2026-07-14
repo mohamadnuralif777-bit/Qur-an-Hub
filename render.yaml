@@ -9,7 +9,7 @@ services:
     healthCheckPath: /health
     envVars:
       - key: MONGO_URL
-        sync: false      # Set this manually in Render dashboard → MongoDB Atlas connection string
+        sync: false      # Set this manually in Render dashboard → full MongoDB Atlas connection string, ideally including /quran_hub before the query string
       - key: MONGO_DB
         value: quran_hub
       - key: JWT_SECRET
