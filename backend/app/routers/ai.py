@@ -122,8 +122,8 @@ async def ai_chat(request: ChatRequest):
             async for chunk in stream_ai_response(messages_list, system_prompt):
                 full_response += chunk
                 yield f"data: {json.dumps({'delta': chunk})}\n\n"
-        except Exception as e:
-            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+        except Exception:
+            yield f"data: {json.dumps({'error': 'An error occurred while generating the response.'})}\n\n"
         finally:
             yield "data: [DONE]\n\n"
             # Save conversation

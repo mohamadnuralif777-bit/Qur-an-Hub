@@ -132,7 +132,7 @@ async def main():
             "created_at": datetime.utcnow(),
         })
         admin_id = result.inserted_id
-        print(f"Created superadmin: {ADMIN_EMAIL} / {ADMIN_PASSWORD}")
+        print(f"Created superadmin: {ADMIN_EMAIL} / [password hidden]")
 
     # Seed sample contents
     for content in SAMPLE_CONTENTS:

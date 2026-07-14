@@ -10,7 +10,10 @@ const SESSION_KEY = "ai_tutor_session";
 function getOrCreateSession(): string {
   let id = sessionStorage.getItem(SESSION_KEY);
   if (!id) {
-    id = `session_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const array = new Uint8Array(16);
+    crypto.getRandomValues(array);
+    const hex = Array.from(array, (b) => b.toString(16).padStart(2, "0")).join("");
+    id = `session_${Date.now()}_${hex}`;
     sessionStorage.setItem(SESSION_KEY, id);
   }
   return id;
