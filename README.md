@@ -69,7 +69,7 @@ This project includes a `render.yaml` for one-click deployment to [Render.com](h
    - Open **Database Access** and create a database user with a username and password.
    - Open **Network Access** and allow access from `0.0.0.0/0` so Render can connect.
    - In **Connect → Drivers**, copy the connection string.
-   - Replace `<password>` in the connection string with your real database password. If your password contains special characters, URL-encode it first (`@` → `%40`, `#` → `%23`, `/` → `%2F`).
+   - Replace `<password>` in the connection string with your real database password. If your password contains special characters, URL-encode it first (`@` → `%40`, `#` → `%23`, `/` → `%2F`, `:` → `%3A`, `!` → `%21`, `$` → `%24`, `%` → `%25`).
 
 3. **In Render dashboard**, click **New → Blueprint** and connect your repo. Render will read `render.yaml` and create two services automatically:
    - `quran-hub-backend` (FastAPI)
@@ -107,7 +107,7 @@ This project includes a `render.yaml` for one-click deployment to [Render.com](h
    ```bash
    cd backend
    pip install -r requirements.txt
-   MONGO_URL="mongodb+srv://<username>:<password>@<cluster-url>/?retryWrites=true&w=majority&appName=Cluster0" \
+   MONGO_URL="mongodb+srv://<username>:<password>@<cluster-url>/quran_hub?retryWrites=true&w=majority&appName=Cluster0" \
    MONGO_DB="quran_hub" \
    python seed.py
    ```
