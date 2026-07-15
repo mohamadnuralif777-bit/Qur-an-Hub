@@ -8,6 +8,8 @@
   <p class="meta">Diperbarui: {{ material['updated_at'] }}</p>
   {% if material['summary'] %}<p class="lead">{{ material['summary'] }}</p>{% endif %}
   <div class="material-content">
+    {# Konten sudah disanitasi di sisi server (lihat sanitizer.sanitize_html)
+       saat disimpan, sehingga aman ditampilkan dengan filter 'safe'. #}
     {{ material['content_html'] | safe }}
   </div>
 </article>

@@ -28,8 +28,6 @@ def client():
     os.unlink(db_path)
 
 
-from config import Config
-
 ADMIN_PW = Config.ADMIN_PASSWORD
 
 

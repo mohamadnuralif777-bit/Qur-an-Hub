@@ -234,6 +234,9 @@ def _save_material(material_id):
         try:
             content = uploaded.read().decode("utf-8", errors="replace")
         except Exception:  # noqa: BLE001
+            from flask import current_app
+
+            current_app.logger.exception("Gagal membaca berkas HTML yang diunggah")
             return "Gagal membaca berkas HTML yang diunggah."
 
     if not title:
@@ -266,4 +269,5 @@ app = create_app()
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
+    debug = os.environ.get("FLASK_DEBUG", "").lower() in ("1", "true", "yes")
+    app.run(host="127.0.0.1", port=int(os.environ.get("PORT", 5000)), debug=debug)
