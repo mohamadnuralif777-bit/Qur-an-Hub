@@ -65,13 +65,14 @@ def _ensure_default_admin(db):
             (
                 current_app.config["ADMIN_USERNAME"],
                 generate_password_hash(current_app.config["ADMIN_PASSWORD"]),
-                _now(),
+                now_iso(),
             ),
         )
         db.commit()
 
 
-def _now():
+def now_iso():
+    """Kembalikan waktu UTC saat ini dalam format ISO-8601 (detik)."""
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 

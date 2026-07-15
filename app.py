@@ -21,6 +21,7 @@ from werkzeug.security import check_password_hash
 
 import db as database
 from config import Config
+from db import now_iso
 from sanitizer import sanitize_html
 
 
@@ -219,8 +220,6 @@ def _save_material(material_id):
     Mengembalikan pesan error (str) bila validasi gagal, atau None bila sukses.
     Konten HTML dapat berasal dari textarea atau berkas .html yang diunggah.
     """
-    from db import _now  # impor lokal untuk menghindari siklus
-
     title = (request.form.get("title") or "").strip()
     category = (request.form.get("category") or "").strip() or "Umum"
     summary = (request.form.get("summary") or "").strip()
@@ -233,7 +232,7 @@ def _save_material(material_id):
             return "Berkas yang diunggah harus berformat .html atau .htm."
         try:
             content = uploaded.read().decode("utf-8", errors="replace")
-        except Exception:  # noqa: BLE001
+        except (OSError, ValueError):
             from flask import current_app
 
             current_app.logger.exception("Gagal membaca berkas HTML yang diunggah")
@@ -246,7 +245,7 @@ def _save_material(material_id):
 
     safe_content = sanitize_html(content)
     db = database.get_db()
-    now = _now()
+    now = now_iso()
 
     if material_id is None:
         db.execute(

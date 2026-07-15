@@ -31,12 +31,10 @@ def client():
     os.unlink(db_path)
 
 
-ADMIN_PW = TEST_PW
-
 
 def login(client, username="admin", password=None):
     if password is None:
-        password = ADMIN_PW
+        password = TEST_PW
     return client.post(
         "/login",
         data={"username": username, "password": password},
