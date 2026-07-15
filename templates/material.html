@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ material['title'] }}{% endblock %}
+{% block content %}
+<article class="material">
+  <p><a class="btn btn-link" href="{{ url_for('index') }}">← Kembali ke daftar materi</a></p>
+  <span class="badge">{{ material['category'] }}</span>
+  <h1>{{ material['title'] }}</h1>
+  <p class="meta">Diperbarui: {{ material['updated_at'] }}</p>
+  {% if material['summary'] %}<p class="lead">{{ material['summary'] }}</p>{% endif %}
+  <div class="material-content">
+    {{ material['content_html'] | safe }}
+  </div>
+</article>
+{% endblock %}

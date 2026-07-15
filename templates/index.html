@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Beranda{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Selamat Datang di Belajar Islami</h1>
+  <p>Kumpulan materi pembelajaran islami. Pelajari Al-Qur'an, hadis, fiqih, akhlak, dan ilmu keislaman lainnya.</p>
+</section>
+
+<form class="filter-bar" method="get" action="{{ url_for('index') }}">
+  <input type="search" name="q" placeholder="Cari materi…" value="{{ q }}">
+  <select name="category" onchange="this.form.submit()">
+    <option value="">Semua Kategori</option>
+    {% for cat in categories %}
+      <option value="{{ cat }}" {% if cat == active_category %}selected{% endif %}>{{ cat }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Cari</button>
+</form>
+
+{% if materials %}
+  <div class="card-grid">
+    {% for m in materials %}
+      <article class="card">
+        <span class="badge">{{ m['category'] }}</span>
+        <h2><a href="{{ url_for('view_material', material_id=m['id']) }}">{{ m['title'] }}</a></h2>
+        {% if m['summary'] %}<p class="summary">{{ m['summary'] }}</p>{% endif %}
+        <p class="meta">Diperbarui: {{ m['updated_at'] }}</p>
+        <a class="btn btn-link" href="{{ url_for('view_material', material_id=m['id']) }}">Baca materi →</a>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="empty-state">Belum ada materi yang tersedia{% if q or active_category %} untuk pencarian ini{% endif %}.</p>
+{% endif %}
+{% endblock %}

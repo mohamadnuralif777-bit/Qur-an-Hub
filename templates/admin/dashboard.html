@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Panel Admin{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Panel Admin</h1>
+  <a class="btn btn-primary" href="{{ url_for('admin_create_material') }}">+ Unggah Materi Baru</a>
+</div>
+
+{% if materials %}
+  <table class="table">
+    <thead>
+      <tr><th>Judul</th><th>Kategori</th><th>Diperbarui</th><th>Aksi</th></tr>
+    </thead>
+    <tbody>
+      {% for m in materials %}
+        <tr>
+          <td><a href="{{ url_for('view_material', material_id=m['id']) }}">{{ m['title'] }}</a></td>
+          <td><span class="badge">{{ m['category'] }}</span></td>
+          <td class="meta">{{ m['updated_at'] }}</td>
+          <td class="actions">
+            <a class="btn btn-small" href="{{ url_for('admin_edit_material', material_id=m['id']) }}">Edit</a>
+            <form method="post" action="{{ url_for('admin_delete_material', material_id=m['id']) }}"
+                  onsubmit="return confirm('Hapus materi ini?');" style="display:inline">
+              <button type="submit" class="btn btn-small btn-danger">Hapus</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty-state">Belum ada materi. Klik "Unggah Materi Baru" untuk memulai.</p>
+{% endif %}
+{% endblock %}

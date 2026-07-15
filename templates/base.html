@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Belajar Islami{% endblock %} · Qur'an Hub</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{{ url_for('index') }}">
+        <span class="brand-mark">☪</span> Belajar Islami
+      </a>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}">Beranda</a>
+        {% if g.user %}
+          <a href="{{ url_for('admin_dashboard') }}">Panel Admin</a>
+          <a href="{{ url_for('logout') }}">Keluar ({{ g.user['username'] }})</a>
+        {% else %}
+          <a href="{{ url_for('login') }}">Masuk Admin</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-area">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; {{ current_year }} Belajar Islami · Qur'an Hub. Menuntut ilmu adalah kewajiban setiap muslim.</p>
+    </div>
+  </footer>
+</body>
+</html>

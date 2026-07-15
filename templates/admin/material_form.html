@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit Materi' if action == 'edit' else 'Unggah Materi' }}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>{{ 'Edit Materi' if action == 'edit' else 'Unggah Materi Baru' }}</h1>
+  <a class="btn btn-link" href="{{ url_for('admin_dashboard') }}">← Kembali</a>
+</div>
+
+<form class="material-form" method="post" enctype="multipart/form-data"
+      action="{{ url_for('admin_edit_material', material_id=material['id']) if action == 'edit' else url_for('admin_create_material') }}">
+  <label>Judul Materi *
+    <input type="text" name="title" required value="{{ material['title'] if material else '' }}">
+  </label>
+
+  <label>Kategori
+    <input type="text" name="category" placeholder="mis. Al-Qur'an, Hadis, Fiqih, Akhlak"
+           value="{{ material['category'] if material else '' }}">
+  </label>
+
+  <label>Ringkasan Singkat
+    <textarea name="summary" rows="2" placeholder="Deskripsi singkat materi (opsional)">{{ material['summary'] if material else '' }}</textarea>
+  </label>
+
+  <label>Konten Materi (HTML)
+    <textarea name="content_html" rows="14" placeholder="Tulis atau tempel kode HTML materi di sini…">{{ material['content_html'] if material else '' }}</textarea>
+  </label>
+
+  <label>Atau Unggah Berkas .html
+    <input type="file" name="html_file" accept=".html,.htm">
+    <small class="muted">Jika berkas diunggah, isinya akan menggantikan konten pada kotak di atas.</small>
+  </label>
+
+  <p class="muted">Catatan: konten HTML akan dibersihkan secara otomatis (skrip &amp; elemen berbahaya dihapus) demi keamanan.</p>
+
+  <button type="submit" class="btn btn-primary">{{ 'Simpan Perubahan' if action == 'edit' else 'Unggah Materi' }}</button>
+</form>
+{% endblock %}
