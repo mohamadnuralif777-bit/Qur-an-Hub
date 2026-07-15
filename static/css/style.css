@@ -180,6 +180,7 @@ label input, label textarea, label select { width: 100%; margin-top: .3rem; font
 }
 .table th { background: #f0fdfa; color: var(--green-dark); font-size: .85rem; }
 .actions { white-space: nowrap; }
+.inline-form { display: inline; }
 
 /* Material view */
 .material { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 2rem; margin: 1.5rem 0; }

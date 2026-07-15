@@ -254,7 +254,7 @@ def _save_material(material_id):
         if not (filename.endswith(".html") or filename.endswith(".htm")):
             return "Berkas yang diunggah harus berformat .html atau .htm."
         try:
-            content = uploaded.read().decode("utf-8")
+            content = uploaded.read().decode("utf-8", errors="strict")
         except UnicodeDecodeError:
             return "Berkas HTML harus berupa teks dengan encoding UTF-8 yang valid."
         except OSError:

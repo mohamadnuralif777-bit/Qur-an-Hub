@@ -20,7 +20,7 @@
           <td class="actions">
             <a class="btn btn-small" href="{{ url_for('admin_edit_material', material_id=m['id']) }}">Edit</a>
             <form method="post" action="{{ url_for('admin_delete_material', material_id=m['id']) }}"
-                  onsubmit="return confirm('Hapus materi ini?');" style="display:inline">
+                  data-confirm="Hapus materi ini?" class="inline-form">
               <button type="submit" class="btn btn-small btn-danger">Hapus</button>
             </form>
           </td>

@@ -8,7 +8,7 @@
 
 <form class="filter-bar" method="get" action="{{ url_for('index') }}">
   <input type="search" name="q" placeholder="Cari materi…" value="{{ q }}">
-  <select name="category" onchange="this.form.submit()">
+  <select name="category" data-autosubmit>
     <option value="">Semua Kategori</option>
     {% for cat in categories %}
       <option value="{{ cat }}" {% if cat == active_category %}selected{% endif %}>{{ cat }}</option>
