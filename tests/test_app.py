@@ -7,6 +7,9 @@ import pytest
 import app as app_module
 from config import Config
 
+# Kredensial admin tetap untuk pengujian (independen dari variabel lingkungan).
+TEST_PW = "admin123"
+
 
 @pytest.fixture()
 def client():
@@ -17,7 +20,7 @@ def client():
         SECRET_KEY = "test-secret"
         DATABASE = db_path
         ADMIN_USERNAME = "admin"
-        ADMIN_PASSWORD = "admin123"
+        ADMIN_PASSWORD = TEST_PW
         WTF_CSRF_ENABLED = False
 
     flask_app = app_module.create_app(TestConfig)
@@ -28,7 +31,7 @@ def client():
     os.unlink(db_path)
 
 
-ADMIN_PW = Config.ADMIN_PASSWORD
+ADMIN_PW = TEST_PW
 
 
 def login(client, username="admin", password=None):
