@@ -18,8 +18,12 @@ def get_db():
     return g.db
 
 
-def close_db(exception=None):  # noqa: ARG001
-    """Tutup koneksi database di akhir request."""
+def close_db(exception=None):  # noqa: ARG001 (signature teardown Flask butuh param exception)
+    """Tutup koneksi database di akhir request.
+
+    Parameter `exception` diwajibkan oleh signature handler
+    `teardown_appcontext` Flask meski tidak digunakan di sini.
+    """
     db = g.pop("db", None)
     if db is not None:
         db.close()

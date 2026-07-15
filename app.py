@@ -32,6 +32,8 @@ def create_app(config_object=Config):
 
     os.makedirs(os.path.dirname(app.config["DATABASE"]), exist_ok=True)
 
+    _warn_on_insecure_defaults(app)
+
     database.init_app(app)
 
     with app.app_context():
@@ -48,6 +50,27 @@ def create_app(config_object=Config):
         return {"current_year": datetime.now(timezone.utc).year}
 
     return app
+
+
+def _warn_on_insecure_defaults(app):
+    """Peringatkan bila kredensial/kunci rahasia default masih dipakai.
+
+    Nilai default hanya cocok untuk pengembangan; di produksi harus di-set
+    lewat variabel lingkungan (SECRET_KEY, ADMIN_PASSWORD).
+    """
+    if app.config.get("TESTING"):
+        return
+    insecure = []
+    if app.config.get("SECRET_KEY") == "dev-secret-change-me":
+        insecure.append("SECRET_KEY")
+    if app.config.get("ADMIN_PASSWORD") == "admin123":
+        insecure.append("ADMIN_PASSWORD")
+    if insecure:
+        app.logger.warning(
+            "Menggunakan nilai default tidak aman untuk %s. "
+            "Set variabel lingkungan tersebut sebelum deploy ke produksi.",
+            ", ".join(insecure),
+        )
 
 
 # --------------------------------------------------------------------------- #
@@ -231,8 +254,10 @@ def _save_material(material_id):
         if not (filename.endswith(".html") or filename.endswith(".htm")):
             return "Berkas yang diunggah harus berformat .html atau .htm."
         try:
-            content = uploaded.read().decode("utf-8", errors="replace")
-        except (OSError, ValueError):
+            content = uploaded.read().decode("utf-8")
+        except UnicodeDecodeError:
+            return "Berkas HTML harus berupa teks dengan encoding UTF-8 yang valid."
+        except OSError:
             from flask import current_app
 
             current_app.logger.exception("Gagal membaca berkas HTML yang diunggah")
